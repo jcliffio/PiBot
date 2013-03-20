@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">PiBot</string>
+    <string name="version_number">1.0.0</string>
+    <string name="title_activity_driver">DriverActivity</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+</resources>

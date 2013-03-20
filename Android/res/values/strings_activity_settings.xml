@@ -1,0 +1,14 @@
+<resources>
+
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+	<string name="pref_wifi_settings_title">Wifi Settings</string>
+    <string name="pref_routerSSID">Router SSID</string>
+    <string name="pref_routerName_summary">Router name used in PiBot system</string>
+    <string name="pref_routerName_default">PiBot Router</string>
+    <string name="pref_pi_ip">PiBot IP Address</string>
+    <string name="pref_pi_ip_summary">Address of Raspberry Pi</string>
+    <string name="pref_pi_ip_default">192.168.1.131</string>
+
+</resources>

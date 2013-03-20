@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="driver_dialog_router_title">Router does not exist</string>
+    <string name="driver_dialog_router_message">The router specified in your settings either does not exist or is not in your saved access points. Check your settings?</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/pref_wifi_settings_title"
+        android:key="pref_key_wifi_settings">
+        <EditTextPreference
+            android:key="pref_routerSSID"
+            android:title="@string/pref_routerSSID"
+            android:summary="@string/pref_routerName_summary"
+            android:defaultValue="@string/pref_routerName_default" />
+        <EditTextPreference
+            android:key="pref_pi_ip"
+            android:title="@string/pref_pi_ip"
+            android:summary="@string/pref_pi_ip_summary"
+            android:defaultValue="@string/pref_pi_ip_default" />
+    </PreferenceCategory>
+</PreferenceScreen>
