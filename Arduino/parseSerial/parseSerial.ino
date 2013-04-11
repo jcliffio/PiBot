@@ -1,4 +1,8 @@
 
+String serialIn;
+int serialInLength;
+int inputValues[6];
+
 void setup()
 {
   Serial.begin(115200);
@@ -6,30 +10,58 @@ void setup()
 
 void loop()
 {
-  String test = readSerial();
-  if (test != "")
+  readSerial();
+  parseInputString();
+  if (serialIn != "")
   {
-    Serial.println(test);
+    for(int i = 0; i < 6; i++)
+    {
+      Serial.println(inputValues[i]);
+    }
   }
 }
 
-String readSerial()
+void readSerial()
 {
   String readString = "";
-  if(Serial.available() > 0)
+  while(!Serial.available());
+  char c = Serial.read();
+  while (c != '$')
   {
-    delay(5);
-    char c = Serial.read();
-    while (c != '$')
-    {
-      c = Serial.read();
-    }
+    while(!Serial.available());
     c = Serial.read();
-    while (c != '#')
+  }
+  while(!Serial.available());
+  c = Serial.read();
+  while (c != '#')
+  {
+    readString += c;
+    while(!Serial.available());
+    c = Serial.read();
+  }
+  
+  serialIn = readString;
+  Serial.println(serialIn);
+  serialInLength = readString.length();
+}
+
+void parseInputString()
+{
+  int count = 0;
+  String tempString = "";
+  
+  for (int i = 0; i < serialInLength; i++)
+  {
+    if (serialIn.charAt(i) == ',')
     {
-      readString += c;
-      c = Serial.read();
+      inputValues[count] = tempString.toInt();
+      count++;
+      tempString = "";
+    }
+    else
+    {
+      tempString += serialIn.charAt(i);
     }
   }
-  return readString;
+  inputValues[count] = tempString.toInt();
 }

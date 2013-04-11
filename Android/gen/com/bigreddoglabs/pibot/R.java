@@ -25,9 +25,14 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int action_activity_settings=0x7f090001;
-        public static final int action_activity_settings_help=0x7f090002;
-        public static final int button_driverActivity=0x7f090000;
+        public static final int action_activity_settings=0x7f090006;
+        public static final int action_activity_settings_help=0x7f090007;
+        public static final int button_connectToRouter=0x7f090004;
+        public static final int button_driverActivity=0x7f090005;
+        public static final int button_pingServer=0x7f090003;
+        public static final int driverLayout=0x7f090000;
+        public static final int joystickView1=0x7f090002;
+        public static final int wv=0x7f090001;
     }
     public static final class layout {
         public static final int activity_driver=0x7f030000;
@@ -41,24 +46,33 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f060000;
-        public static final int button_driver_text=0x7f060008;
+        public static final int button_connect_text=0x7f060008;
+        public static final int button_driver_text=0x7f060009;
+        public static final int button_ping_server_text=0x7f06000a;
         public static final int cancel=0x7f060005;
         public static final int driver_dialog_router_message=0x7f060007;
         public static final int driver_dialog_router_title=0x7f060006;
         public static final int hello_world=0x7f060003;
         public static final int ok=0x7f060004;
-        public static final int pref_pi_ip=0x7f06000e;
-        public static final int pref_pi_ip_default=0x7f060010;
-        public static final int pref_pi_ip_summary=0x7f06000f;
-        public static final int pref_routerName_default=0x7f06000d;
-        public static final int pref_routerName_summary=0x7f06000c;
-        public static final int pref_routerSSID=0x7f06000b;
+        public static final int pref_barom_settings_title=0x7f060016;
+        public static final int pref_pi_ip=0x7f060010;
+        public static final int pref_pi_ip_default=0x7f060012;
+        public static final int pref_pi_ip_summary=0x7f060011;
+        public static final int pref_pi_video_port=0x7f060013;
+        public static final int pref_pi_video_port_default=0x7f060015;
+        public static final int pref_pi_video_port_summary=0x7f060014;
+        public static final int pref_routerName_default=0x7f06000f;
+        public static final int pref_routerName_summary=0x7f06000e;
+        public static final int pref_routerSSID=0x7f06000d;
+        public static final int pref_sea_pressure=0x7f060017;
+        public static final int pref_sea_pressure_default=0x7f060019;
+        public static final int pref_sea_pressure_summary=0x7f060018;
         /**  Strings related to Settings 
          */
-        public static final int pref_wifi_settings_title=0x7f06000a;
+        public static final int pref_wifi_settings_title=0x7f06000c;
         public static final int title_activity_driver=0x7f060002;
-        public static final int title_activity_settings=0x7f060009;
-        public static final int title_activity_settings_help=0x7f060011;
+        public static final int title_activity_settings=0x7f06000b;
+        public static final int title_activity_settings_help=0x7f06001a;
         public static final int version_number=0x7f060001;
     }
     public static final class style {

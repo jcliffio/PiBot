@@ -1,7 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -9,13 +10,24 @@
     tools:context=".MainActivity" >
 
     <Button
+        android:id="@+id/button_pingServer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="pingServer"
+        android:text="@string/button_ping_server_text" />
+
+    <Button
+        android:id="@+id/button_connectToRouter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="connectToRouter"
+        android:text="@string/button_connect_text" />
+
+    <Button
         android:id="@+id/button_driverActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="158dp"
-        android:text="@string/button_driver_text"
-        android:onClick="startDriving" />
+        android:onClick="startDriving"
+        android:text="@string/button_driver_text" />
 
-</RelativeLayout>
+</LinearLayout>

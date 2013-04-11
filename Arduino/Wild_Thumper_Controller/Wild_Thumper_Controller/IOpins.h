@@ -7,8 +7,8 @@
 #define RCleft              0  // Digital input 0
 #define RCright             1  // Digital input 1
 
-#define S0                  2  // Servo output 00
-#define S1                  4  // Servo output 01
+#define panPin                  2  // Servo output 00
+#define tiltPin                 4  // Servo output 01
 #define S2                  7  // Servo output 02
 #define S3                  8  // Servo output 03
 #define S4                  9  // Servo output 04

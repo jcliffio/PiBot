@@ -4,11 +4,22 @@
 
     <!-- Strings related to Settings -->
 	<string name="pref_wifi_settings_title">Wifi Settings</string>
+	
     <string name="pref_routerSSID">Router SSID</string>
     <string name="pref_routerName_summary">Router name used in PiBot system</string>
     <string name="pref_routerName_default">PiBot Router</string>
+    
     <string name="pref_pi_ip">PiBot IP Address</string>
     <string name="pref_pi_ip_summary">Address of Raspberry Pi</string>
     <string name="pref_pi_ip_default">192.168.1.131</string>
-
+    
+    <string name="pref_pi_video_port">MJpeg Stream Port</string>
+    <string name="pref_pi_video_port_summary">Port that the MJpeg stream comes from. Is set on MJpeg-Streamer startup</string>
+    <string name="pref_pi_video_port_default">8090</string>
+    
+	<string name="pref_barom_settings_title">Barometer Settings</string>
+	
+	<string name="pref_sea_pressure">Current Sea Level Pressure</string>
+	<string name="pref_sea_pressure_summary">Barometric Pressure at Sea Level at your location</string>
+	<string name="pref_sea_pressure_default">101600</string>
 </resources>
