@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/driverLayout"
     android:layout_width="match_parent"
@@ -8,16 +8,138 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/lightGrey"
     tools:context=".DriverActivity" >
 
     <WebView
         android:id="@+id/wv"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true" />    
+    
+	<LinearLayout
+	    android:id="@+id/joystickLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_alignParentBottom="true">
 
-    <com.bigreddoglabs.pibot.JoystickView
-        android:id="@+id/joystickView1"
-        android:layout_width="125dp"
-        android:layout_height="125dp" />
+		<com.bigreddoglabs.pibot.JoystickView
+		    android:id="@+id/jsMotor"
+		    android:layout_width="125dp"
+		    android:layout_height="125dp"
+		    android:layout_gravity="left" />
 
-</LinearLayout>
+    	<com.bigreddoglabs.pibot.JoystickView
+    	    android:id="@+id/jsCam"
+    	    android:layout_width="125dp"
+    	    android:layout_height="125dp"
+    	    android:layout_gravity="right"
+    	    android:layout_marginLeft="75dp" />
+
+	</LinearLayout>
+
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_above="@+id/joystickLayout"
+	    android:layout_below="@+id/wv"
+	    android:orientation="horizontal" >
+
+	    <LinearLayout 
+	       android:layout_width="0dp"
+	       android:layout_height="match_parent"
+		   android:layout_weight=".5"
+		   android:layout_marginTop="10dp"
+	       android:layout_marginBottom="10dp"
+	       android:layout_marginRight="5dp"
+	       android:padding="10dp"
+	       android:background="@color/white"
+	       android:orientation="vertical" >
+	        <TextView 
+	            android:id="@+id/locationHeader"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:text="@string/location_stats"
+	            android:paddingLeft="4dp" />
+	        <View
+	            android:background="@color/lightGrey"
+	            android:layout_width="match_parent"
+	            android:layout_height="2dp" />
+	        
+	        <TableLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:padding="5dp" >
+
+	            <TableRow
+	                android:id="@+id/longitudeRow"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content" >
+	            </TableRow>
+
+	            <TableRow
+	                android:id="@+id/latitudeRow"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content" >
+	            </TableRow>
+
+	            <TableRow
+	                android:id="@+id/headingRow"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content" >
+	            </TableRow>    
+	        </TableLayout>"
+	    </LinearLayout>
+	    <LinearLayout 
+	       android:layout_width="0dp"
+	       android:layout_height="match_parent"
+	       android:layout_weight=".5"
+	       android:layout_marginTop="10dp"
+	       android:layout_marginBottom="10dp"
+	       android:layout_marginLeft="5dp"
+	       android:padding="10dp"
+	       android:background="@color/white"
+	       android:orientation="vertical" >
+	        <TextView 
+	            android:id="@+id/miscHeader"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:text="@string/misc_stats"
+	            android:paddingLeft="4dp" />
+	        <View
+	            android:background="@color/lightGrey"
+	            android:layout_width="match_parent"
+	            android:layout_height="2dp" />
+
+	       	<TableLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:padding="5dp" >
+
+	            <TableRow
+	                android:id="@+id/temperatureRow"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content" >
+	                <TextView>
+	                    
+	                </TextView>
+	            </TableRow>
+
+	            <TableRow
+	                android:id="@+id/pressureRow"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content" >
+	            </TableRow>
+
+	            <TableRow
+	                android:id="@+id/altitudeRow"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content" >
+	            </TableRow>    
+	        </TableLayout>
+
+	    </LinearLayout>
+	</LinearLayout>
+
+</RelativeLayout>

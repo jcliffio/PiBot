@@ -2,4 +2,7 @@
 <resources>
     <string name="driver_dialog_router_title">Router does not exist</string>
     <string name="driver_dialog_router_message">The router specified in your settings either does not exist or is not in your saved access points. Check your settings?</string>
+    
+    <string name="location_stats">Location Stats</string>
+    <string name="misc_stats">Misc. Stats</string>
 </resources>

@@ -13,6 +13,10 @@
     <string name="pref_pi_ip_summary">Address of Raspberry Pi</string>
     <string name="pref_pi_ip_default">192.168.1.131</string>
     
+    <string name="pref_pi_rest_port">REST Port</string>
+    <string name="pref_pi_rest_port_summary">Port to the REST server</string>
+    <string name="pref_pi_rest_port_default">8000</string>
+    
     <string name="pref_pi_video_port">MJpeg Stream Port</string>
     <string name="pref_pi_video_port_summary">Port that the MJpeg stream comes from. Is set on MJpeg-Streamer startup</string>
     <string name="pref_pi_video_port_default">8090</string>

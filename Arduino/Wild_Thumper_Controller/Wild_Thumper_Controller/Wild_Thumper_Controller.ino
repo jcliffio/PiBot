@@ -47,12 +47,12 @@ int camTiltVal;
 
 //------------------------------------------compass variables----------------------------------
 
-LSM303 compass;
+//LSM303 compass;
 int compassHeading;
 
 //------------------------------------------barometer variables--------------------------------
 
-Adafruit_BMP085 barometer;
+//Adafruit_BMP085 barometer;
 boolean baromConnected;
 int temperature;
 int pressure;
@@ -76,7 +76,7 @@ void setup()
   } 
   //Serial.begin(57600);
   Wire.begin();
-  setupCompass();
+//  setupCompass();
 }
 
 
@@ -319,32 +319,32 @@ void setTilt(int t)
 }
 
 //--------------------------------------------------------Sensor functions---------------------------------
-void setupSensors()
-{
-  setupCompass();
-  baromConnected = setupBarom();
-}
+//void setupSensors()
+//{
+//  setupCompass();
+//  baromConnected = setupBarom();
+//}
 
-void setupCompass()
-{
-  compass.init();
-  compass.enableDefault();
-  
-  compass.m_min.x = -520; compass.m_min.y = -570; compass.m_min.z = -770;
-  compass.m_max.x = +540; compass.m_max.y = +500; compass.m_max.z = 180;
-}
+//void setupCompass()
+//{
+//  compass.init();
+//  compass.enableDefault();
+//  
+//  compass.m_min.x = -520; compass.m_min.y = -570; compass.m_min.z = -770;
+//  compass.m_max.x = +540; compass.m_max.y = +500; compass.m_max.z = 180;
+//}
 
-boolean setupBarom()
-{
-  if (!barometer.begin())
-  {
-    return false;
-  }
-  return true;
-}
+//boolean setupBarom()
+//{
+//  if (!barometer.begin())
+//  {
+//    return false;
+//  }
+//  return true;
+//}
 
-int getCompassHeading()
-{
-  compass.read();
-  return compass.heading();
-}
+//int getCompassHeading()
+//{
+//  compass.read();
+//  return compass.heading();
+//}

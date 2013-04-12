@@ -8,5 +8,8 @@
     
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    
+    <color name="white">#FFFFFF</color>
+    <color name="lightGrey">#CCCCCC</color>
 
 </resources>
