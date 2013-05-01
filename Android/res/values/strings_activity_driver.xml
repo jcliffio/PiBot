@@ -5,4 +5,12 @@
     
     <string name="location_stats">Location Stats</string>
     <string name="misc_stats">Misc. Stats</string>
+    
+    <string name="longitude">Longitude:</string>
+    <string name="latitude">Latitude:</string>
+    <string name="heading">Heading:</string>
+    
+    <string name="temperature">Temperature:</string>
+    <string name="pressure">Pressure:</string>
+    <string name="altitude">Altitude:</string>
 </resources>

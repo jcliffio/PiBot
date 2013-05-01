@@ -10,23 +10,18 @@
     tools:context=".MainActivity" >
 
     <Button
-        android:id="@+id/button_pingServer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="pingServer"
-        android:text="@string/button_ping_server_text" />
-
-    <Button
         android:id="@+id/button_connectToRouter"
-        android:layout_width="wrap_content"
+        android:layout_width="185dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:onClick="connectToRouter"
         android:text="@string/button_connect_text" />
 
     <Button
         android:id="@+id/button_driverActivity"
-        android:layout_width="wrap_content"
+        android:layout_width="185dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:onClick="startDriving"
         android:text="@string/button_driver_text" />
 

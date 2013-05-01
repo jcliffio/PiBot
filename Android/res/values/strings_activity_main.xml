@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="button_connect_text">Connect To Router</string>
+    <string name="button_connect_text">Connect to Router</string>
     <string name="button_driver_text">Drive Vehicle</string>
     <string name="button_ping_server_text">Ping Server</string>
     

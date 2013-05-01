@@ -11,8 +11,8 @@
     android:background="@color/lightGrey"
     tools:context=".DriverActivity" >
 
-    <WebView
-        android:id="@+id/wv"
+    <com.bigreddoglabs.pibot.MjpegView
+        android:id="@+id/videoFeed"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_alignParentTop="true" />    
@@ -43,7 +43,7 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="fill_parent"
 	    android:layout_above="@+id/joystickLayout"
-	    android:layout_below="@+id/wv"
+	    android:layout_below="@+id/videoFeed"
 	    android:orientation="horizontal" >
 
 	    <LinearLayout 
@@ -76,18 +76,63 @@
 	                android:id="@+id/longitudeRow"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content" >
+	                <TextView
+	                    android:layout_width="0dp"
+	                    android:layout_height="wrap_content"
+	                    android:layout_weight=".6"
+	                    android:text="@string/longitude"
+	                    android:textSize="12sp" />
+
+	               	<TextView
+	               	    android:id="@+id/longitudeTextView"
+	               	    android:layout_width="0dp"
+	               	    android:layout_height="wrap_content"
+	               	    android:layout_weight=".4"
+	               	    android:gravity="right"
+	               	    android:text="-88.3226"
+	               	    android:textSize="12sp" />
 	            </TableRow>
 
 	            <TableRow
 	                android:id="@+id/latitudeRow"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content" >
+	               	<TextView
+	                    android:layout_width="0dp"
+	                    android:layout_height="wrap_content"
+	                    android:layout_weight=".6"
+	                    android:text="@string/latitude"
+	                    android:textSize="12sp" />
+
+	               	<TextView
+	               	    android:id="@+id/latitudeTextView"
+	               	    android:layout_width="0dp"
+	               	    android:layout_height="wrap_content"
+	               	    android:layout_weight=".4"
+	               	    android:gravity="right"
+	               	    android:text="36.6199"
+	               	    android:textSize="12sp" />
 	            </TableRow>
 
 	            <TableRow
 	                android:id="@+id/headingRow"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content" >
+	               	<TextView
+	                    android:layout_width="0dp"
+	                    android:layout_height="wrap_content"
+	                    android:layout_weight=".6"
+	                    android:text="@string/heading"
+	                    android:textSize="12sp" />
+
+	               	<TextView
+	               	    android:id="@+id/headingTextView"
+	               	    android:layout_width="0dp"
+	               	    android:layout_height="wrap_content"
+	               	    android:layout_weight=".4"
+	               	    android:gravity="right"
+	               	    android:text="10"
+	               	    android:textSize="12sp" />
 	            </TableRow>    
 	        </TableLayout>"
 	    </LinearLayout>
@@ -121,22 +166,64 @@
 	                android:id="@+id/temperatureRow"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content" >
-	                <TextView>
-	                    
-	                </TextView>
+	                <TextView
+	                    android:layout_width="0dp"
+	                    android:layout_height="wrap_content"
+	                    android:layout_weight=".6"
+	                    android:text="@string/temperature"
+	                    android:textSize="12sp" />
+
+	               	<TextView
+	               	    android:id="@+id/temperatureTextView"
+	               	    android:layout_width="0dp"
+	               	    android:layout_height="wrap_content"
+	               	    android:layout_weight=".4"
+	               	    android:gravity="right"
+	               	    android:text="32C"
+	               	    android:textSize="12sp" />
 	            </TableRow>
 
 	            <TableRow
 	                android:id="@+id/pressureRow"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content" >
+	               	<TextView
+	                    android:layout_width="0dp"
+	                    android:layout_height="wrap_content"
+	                    android:layout_weight=".6"
+	                    android:text="@string/pressure"
+	                    android:textSize="12sp" />
+
+	               	<TextView
+	               	    android:id="@+id/pressureTextView"
+	               	    android:layout_width="0dp"
+	               	    android:layout_height="wrap_content"
+	               	    android:layout_weight=".4"
+	               	    android:gravity="right"
+	               	    android:text="102471"
+	               	    android:textSize="12sp" />
 	            </TableRow>
 
-	            <TableRow
+	            <!-- <TableRow
 	                android:id="@+id/altitudeRow"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content" >
-	            </TableRow>    
+	               	<TextView
+	                    android:layout_width="0dp"
+	                    android:layout_height="wrap_content"
+	                    android:layout_weight=".6"
+	                    android:text="@string/altitude"
+	                    android:textSize="12sp" />
+
+	               	<TextView
+	               	    android:id="@+id/altitudeTextView"
+	               	    android:layout_width="0dp"
+	               	    android:layout_height="wrap_content"
+	               	    android:layout_weight=".4"
+	               	    android:gravity="right"
+	               	    android:text="32C"
+	               	    android:textSize="12sp" />
+	            </TableRow>    --> 
 	        </TableLayout>
 
 	    </LinearLayout>

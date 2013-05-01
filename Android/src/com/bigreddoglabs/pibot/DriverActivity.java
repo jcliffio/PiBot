@@ -1,10 +1,11 @@
 package com.bigreddoglabs.pibot;
 
+import com.bigreddoglabs.pibot.MjpegInputStream;
+import com.bigreddoglabs.pibot.MjpegView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.Exchanger;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.http.HttpEntity;
@@ -14,6 +15,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,12 +27,11 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebView;
+import android.widget.TextView;
 
 
 public class DriverActivity extends Activity {
 	
-	private static final boolean DEBUG = false;
 	private static final String TAG = "MjpegActivity";
 	
 	public SharedPreferences sharedPref;
@@ -43,25 +44,44 @@ public class DriverActivity extends Activity {
 	
 	String videoHTML;
 	
-	private WebView wv;
+	private MjpegView videoFeed;
 	
 	JoystickView joystickMotor;
 	JoystickView joystickCam;
 	
 	Controller c;
 	
-	final ArrayBlockingQueue<Controller> outQueue = new ArrayBlockingQueue<Controller>(50);
+	final LinkedBlockingQueue<Controller> outQueue = new LinkedBlockingQueue<Controller>(10);
 	
-	final Handler receivedDataHandler = new Handler() {
+	static TextView longitude;
+	static TextView latitude;
+	static TextView heading;
+	static TextView temperature;
+	static TextView pressure;
+	static TextView altitude;
+	
+	static final Handler receivedDataHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			
+			if(msg.what == 0)
+			{
+				Sensor s = (Sensor)msg.obj;
+				
+				longitude.setText(Integer.toString(s.getLongitude()));
+				latitude.setText(Integer.toString(s.getLatitude()));
+				heading.setText(Integer.toString(s.getHeading()));
+				temperature.setText(Integer.toString(s.getTemperature()));
+				pressure.setText(Integer.toString(s.getPressure()));
+				//altitude.setText(Integer.toString(s.getAltitude()));
+			}
 			super.handleMessage(msg);
 		}
 	};
 	
 	Thread httpSendThread;
 	Thread httpReceiveThread;
+	boolean sendThreadGo;
+	boolean receiveThreadGo;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +102,16 @@ public class DriverActivity extends Activity {
 		
 		videoHTML = "<html><body><img src=\"" + MjpegURL + "\" width=\"750px\"/></body></html>";
 		
-//		alertRouterNotConnected = buildRouterDialog();
-		
 		setContentView(R.layout.activity_driver);
 		
-		wv = (WebView)findViewById(R.id.wv);
+		longitude = (TextView)findViewById(R.id.longitudeTextView);
+		latitude = (TextView)findViewById(R.id.latitudeTextView);
+		heading = (TextView)findViewById(R.id.headingTextView);
+		temperature = (TextView)findViewById(R.id.temperatureTextView);
+		pressure = (TextView)findViewById(R.id.pressureTextView);
+		//altitude = (TextView)findViewById(R.id.altitudeTextView);
+		
+		videoFeed = (MjpegView)findViewById(R.id.videoFeed);
 		
 		c = new Controller();
 		
@@ -99,57 +124,71 @@ public class DriverActivity extends Activity {
         httpSendThread = new Thread(new Runnable() {
 		    @Override
 		    public void run() {
+		    	Controller lastC = new Controller();
+	        	Controller c = new Controller();
 		        try {
-		        	String URL = "http://" + prefPiAddress.get() + ":" + prefRestPort.get() + "/devices/serial0";
-		        	HttpClient httpClient = new DefaultHttpClient();		        	
-		            while (true) {
-		            	String sendString = packageString(outQueue.take());
-		                HttpPost post = new HttpPost(URL + sendString);
-		                try {
-							httpClient.execute(post);
-						} catch (ClientProtocolException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+		        	//URL to POST our serial string to
+		        	String URL = "http://" + prefPiAddress.get() + ":" 
+		        				+ prefRestPort.get() + "/api/pibot/";
+		        	HttpClient httpClient = new DefaultHttpClient();
+		        	//continuously send POST commands to the CherryPy server
+		            while (sendThreadGo) {
+		            	c.set(outQueue.take());
+		            	Log.i("data", c.toString());
+		            	if (lastC.equals(c))
+		            	{
+		            	}
+		            	else
+		            	{
+		            		String sendString = c.toString();
+			                HttpPost get = new HttpPost(URL + sendString + "/");
+			                try {
+								HttpResponse rp = httpClient.execute(get);
+								//Monitor responses from the server
+								Log.i("response", EntityUtils.toString(rp.getEntity()));
+							} catch (ClientProtocolException e) {
+								Log.i("error", "ERROR");
+								e.printStackTrace();
+							} catch (IOException e) {
+								Log.i("error", "ERROR");
+								e.printStackTrace();
+							}
+			                lastC.set(c);
+		            	}
 		            }
 		        } catch (InterruptedException e) {
 		            e.printStackTrace();
 		        }
-		    }
-		    
-		    public String packageString(Controller c)
-		    {
-		    	return "$" + c.getlMotorDirection() + "," +
-		    			c.getlMotorSpeed() + "," +
-		    			c.getrMotorDirection() + "," +
-		    			c.getrMotorSpeed() + "," +
-		    			c.getCamPan() + "," +
-		    			c.getCamTilt() + "#";
 		    }
 		});
         
         httpReceiveThread = new Thread(new Runnable() {
 		    @Override
 		    public void run() {
-		        String URL = "http://" + prefPiAddress.get() + ":" + prefRestPort.get() + "/devices/serial0";
-				HttpClient httpClient = new DefaultHttpClient();		        	
-				while (true) {
+		    	//URL to GET data from
+		        String URL = "http://" + prefPiAddress.get() + ":" + prefRestPort.get() + "/api/pibot/";
+		        HttpClient httpClient = new DefaultHttpClient();		        	
+				while (receiveThreadGo) {
 				    HttpGet get = new HttpGet(URL);
-				    try {
-						HttpResponse response = httpClient.execute(get);
-						HttpEntity entity = response.getEntity();
-						String text = getASCIIContentFromEntity(entity);
-						Sensor s = unpackData(getDataFromString(text));
-					} catch (ClientProtocolException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+//				    try {
+//						HttpResponse response = httpClient.execute(get);
+//						Log.i("receivedData", EntityUtils.toString(response.getEntity()));
+//						HttpEntity entity = response.getEntity();
+//						String text = getASCIIContentFromEntity(entity);
+//						
+//						Sensor s = unpackData(getDataFromString(text));
+//						sendMessageToUI(s);
+//						Thread.sleep(1000);
+//					}				    
+//				    catch (ClientProtocolException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					} catch (Exception e) {
+//						Log.i("recieveThread", e.toString());
+//					}
 				}
 		    }
 		   
@@ -197,62 +236,80 @@ public class DriverActivity extends Activity {
 		    	}
 		    	return sensor;
 		    }
+		    
+		    protected void sendMessageToUI(Sensor s)
+		    {
+		    	Message msg = receivedDataHandler.obtainMessage();
+				msg.what = 0;
+				msg.obj = s;
+				receivedDataHandler.sendMessage(msg);
+		    }
 		});
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		wv.loadData(videoHTML, "text/html", null);
 		
+		sendThreadGo = true;
 		httpSendThread.start();
+		receiveThreadGo = true;
+		httpReceiveThread.start();
+		
+		new DoRead().execute(MjpegURL);
 	}
 	
 	public void onPause()
 	{
 		super.onPause();
+		sendThreadGo = false;
 		httpSendThread.interrupt();
+		receiveThreadGo = false;
+		httpReceiveThread.interrupt();
+		Log.i("driver", "THREAD PAUSED");
+		
+		videoFeed.stopPlayback();
 	}
 
-//	public class DoRead extends AsyncTask<String, Void, MjpegInputStream> {
-//        protected MjpegInputStream doInBackground(String... url) {
-//            //TODO: if camera has authentication deal with it and don't just not work
-//            HttpResponse res = null;
-//            DefaultHttpClient httpclient = new DefaultHttpClient();     
-//            Log.d(TAG, "1. Sending http request");
-//            try {
-//                res = httpclient.execute(new HttpGet(URI.create(url[0])));
-//                Log.d(TAG, "2. Request finished, status = " + res.getStatusLine().getStatusCode());
-//                if(res.getStatusLine().getStatusCode()==401){
-//                    //You must turn off camera User Access Control before this will work
-//                    return null;
-//                }
-//                return new MjpegInputStream(res.getEntity().getContent());  
-//            } catch (ClientProtocolException e) {
-//                e.printStackTrace();
-//                Log.d(TAG, "Request failed-ClientProtocolException", e);
-//                //Error connecting to camera
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                Log.d(TAG, "Request failed-IOException", e);
-//                //Error connecting to camera
-//            }
-//
-//            return null;
-//        }
-//
-//        protected void onPostExecute(MjpegInputStream result) {
-//            mv.setSource(result);
-//            mv.setDisplayMode(MjpegView.SIZE_BEST_FIT);
-//            mv.showFps(true);
-//        }
-//    }
+	public class DoRead extends AsyncTask<String, Void, MjpegInputStream> {
+        protected MjpegInputStream doInBackground(String... url) {
+            //TODO: if camera has authentication deal with it and don't just not work
+            HttpResponse res = null;
+            DefaultHttpClient httpclient = new DefaultHttpClient();     
+            Log.d(TAG, "1. Sending http request");
+            try {
+                res = httpclient.execute(new HttpGet(URI.create(url[0])));
+                Log.d(TAG, "2. Request finished, status = " + res.getStatusLine().getStatusCode());
+                if(res.getStatusLine().getStatusCode()==401){
+                    //You must turn off camera User Access Control before this will work
+                    return null;
+                }
+                return new MjpegInputStream(res.getEntity().getContent());  
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+                Log.d(TAG, "Request failed-ClientProtocolException", e);
+                //Error connecting to camera
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d(TAG, "Request failed-IOException", e);
+                //Error connecting to camera
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(MjpegInputStream result) {
+            videoFeed.setSource(result);
+            videoFeed.setDisplayMode(MjpegView.SIZE_BEST_FIT);
+            videoFeed.showFps(true);
+        }
+    }
 	
 	private JoystickMovedListener _motorListener = new JoystickMovedListener() {
 
         @Override
         public void OnMoved(int x, int y) {
-                if (x == 0)
+                if (y == 0)
                 {
                 	c.setMotorDirection(1);
                 }
@@ -269,6 +326,7 @@ public class DriverActivity extends Activity {
                 int absX = Math.abs(x);
                 
                 int initSpeed = 100 + (int)(15.5 * (double)absY);
+                
                 
                 int subAmount = (int)((initSpeed - 100) / 10 * absX);
                 
@@ -293,9 +351,7 @@ public class DriverActivity extends Activity {
 
         @Override
         public void OnReleased() {
-            c.setMotorDirection(1);
-            c.setMotorSpeed(100);
-            addToOutQueue(c);
+            
         }
         
         public void OnReturnedToCenter() {
@@ -309,16 +365,21 @@ public class DriverActivity extends Activity {
 
         @Override
         public void OnMoved(int pan, int tilt) {
-        	c.setCamPan(pan);
-        	c.setCamTilt(tilt * -1);
-        	addToOutQueue(c);
+        	if (pan == 0 && tilt == 0)
+        	{
+        		
+        	}
+        	else
+        	{
+        		c.setCamPan(pan);
+            	c.setCamTilt(tilt * -1);
+            	addToOutQueue(c);
+        	}
         }
 
         @Override
         public void OnReleased() {
-        	c.setCamPan(0);
-        	c.setCamTilt(0);
-        	addToOutQueue(c);
+        	
         }
         
         public void OnReturnedToCenter() {
@@ -330,16 +391,11 @@ public class DriverActivity extends Activity {
 	
 	private void addToOutQueue(Controller c)
 	{
-		try {
-			if (outQueue.remainingCapacity() == 0)
-			{
-				outQueue.removeAll(outQueue);
-				Log.i("addToOutQueue", "CLEARED QUEUE");
-			}
-			outQueue.put(c);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (outQueue.remainingCapacity() == 0)
+		{
+			outQueue.removeAll(outQueue);
+			Log.i("addToOutQueue", "CLEARED QUEUE");
 		}
+		outQueue.add(c);
 	}
 }

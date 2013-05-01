@@ -24,7 +24,7 @@
             android:summary="@string/pref_pi_video_port_summary"
             android:defaultValue="@string/pref_pi_video_port_default" />
     </PreferenceCategory>
-    <PreferenceCategory
+    <!-- <PreferenceCategory
         android:title="@string/pref_barom_settings_title"
         android:key="pref_barom_settings" >
         <EditTextPreference
@@ -32,5 +32,5 @@
             android:title="@string/pref_sea_pressure"
             android:summary="@string/pref_sea_pressure_summary"
             android:defaultValue="@string/pref_sea_pressure_default" />
-    </PreferenceCategory>
+    </PreferenceCategory>-->
 </PreferenceScreen>

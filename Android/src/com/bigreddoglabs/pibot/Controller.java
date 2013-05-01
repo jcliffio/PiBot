@@ -1,5 +1,7 @@
 package com.bigreddoglabs.pibot;
 
+import android.util.Log;
+
 public class Controller {
 	private final int FORWARD = 2;
 	private final int STOP = 1;
@@ -19,8 +21,8 @@ public class Controller {
 	
 	public Controller()
 	{
-		setlMotorDirection(1);
-		setrMotorDirection(1);
+		setlMotorDirection(STOP);
+		setrMotorDirection(STOP);
 		
 		setlMotorSpeed(minSpeed);
 		setrMotorSpeed(minSpeed);
@@ -81,5 +83,31 @@ public class Controller {
 		this.camTilt = camTilt;
 	}
 	
+	public String toString()
+	{
+		return this.getlMotorDirection() + "," +
+				this.getlMotorSpeed() + "," +
+	    		   this.getrMotorDirection() + "," +
+	    		   this.getrMotorSpeed() + "," +
+	    		   this.getCamPan() + "," +
+	    		   this.getCamTilt();
+	}
+	
+	public boolean equals(Controller op)
+	{
+		String c1 = this.toString();
+		String c2 = op.toString();
+		return c1.equals(c2);
+	}
+	
+	public void set(Controller op)
+	{
+		this.setCamPan(op.getCamPan());
+		this.setCamTilt(op.getCamTilt());
+		this.setlMotorDirection(op.getlMotorDirection());
+		this.setrMotorDirection(op.getrMotorDirection());
+		this.setlMotorSpeed(op.getlMotorSpeed());
+		this.setrMotorSpeed(op.getrMotorSpeed());
+	}
 	
 }

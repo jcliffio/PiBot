@@ -35,6 +35,8 @@ public class MainActivity extends Activity {
 	
 	AlertDialog alertRouterNotConnected;
 	
+	Thread httpSendThread;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +50,6 @@ public class MainActivity extends Activity {
       	
       	alertRouterNotConnected = buildRouterDialog();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

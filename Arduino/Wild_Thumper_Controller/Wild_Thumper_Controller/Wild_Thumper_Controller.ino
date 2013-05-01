@@ -62,7 +62,9 @@ int altitude;
 void setup()
 {
   //------------------------------------------------------------ Initialize Servos ----------------------------------------------------
-  attachCam();
+  camPan.attach(panPin);
+  camTilt.attach(tiltPin);
+  setCam(90,90);
   
   //------------------------------------------------------------ Initialize I/O pins --------------------------------------------------
 
@@ -184,7 +186,6 @@ void readSerial()
   }
   
   serialIn = readString;
-  Serial.println(serialIn);
   serialInLength = readString.length();
 }
 
@@ -290,6 +291,7 @@ void attachCam()
 {
   camPan.attach(panPin);
   camTilt.attach(tiltPin);
+  setCam(90,90);
 }
 
 void setCam(int p, int t)
